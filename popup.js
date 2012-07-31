@@ -146,6 +146,22 @@
                     newLeft = jAxis.offset().left - Popup._realWidth(jPopup) + Popup._realWidth(jAxis);
                     newTop = jAxis.offset().top - Popup._realHeight(jPopup);
                     break;
+                case PopupPosition.LEFT_BOTTOM_ALIGN:
+                    newLeft = jAxis.offset().left - Popup._realWidth(jPopup);
+                    newTop = jAxis.offset().top - Popup._realHeight(jPopup) + Popup._realHeight(jAxis);
+                    break;
+                case PopupPosition.LEFT_TOP_ALIGN:
+                    newLeft = jAxis.offset().left - Popup._realWidth(jPopup);
+                    newTop = jAxis.offset().top;
+                    break;
+                case PopupPosition.RIGHT_BOTTOM_ALIGN:
+                    newLeft = jAxis.offset().left + Popup._realWidth(jAxis);
+                    newTop = jAxis.offset().top - Popup._realHeight(jPopup) + Popup._realHeight(jAxis);
+                    break;
+                case PopupPosition.RIGHT_TOP_ALIGN:
+                    newLeft = jAxis.offset().left + Popup._realWidth(jAxis);
+                    newTop = jAxis.offset().top;
+                    break;
             }
             
             // Optionally add the offsets
