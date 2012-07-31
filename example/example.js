@@ -11,8 +11,7 @@
         $('#br').click(function() {
             window.Popup.show('#popup', {
                 oElAxis: $('#axis'),
-                nPosition: window.PopupPosition.BELOW_RIGHT_ALIGN,
-                title: 'What'
+                nPosition: window.PopupPosition.BELOW_RIGHT_ALIGN
             });
         });
         $('#tl').click(function() {
