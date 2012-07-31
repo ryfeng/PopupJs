@@ -181,6 +181,28 @@
             jPopup.css('left', newLeft)
                 .css('top', newTop)
                 .show();
+                
+            if (oOptions.allowDrag) {
+                if (oOptions.draghandle) {
+                    jPopup.draggable({
+                        handle: oOptions.draghandle
+                    });
+                
+                } else {
+                    jPopup.draggable({
+                        handle: sPopupDragHandleClass
+                    });
+                }
+            }
+        },
+        
+        hide: function(oPopup) {
+            var jPopup = Popup._convertObject(oPopup);
+            if (jPopup) {
+                jPopup.hide();
+            } else {
+                throw "Cannot hide null popup";
+            }
         },
     };
 })();

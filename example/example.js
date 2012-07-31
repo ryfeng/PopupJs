@@ -3,7 +3,9 @@
         $('#bl').click(function() {
             window.Popup.show('#popup', {
                 oElAxis: $('#axis'),
-                nPosition: window.PopupPosition.BELOW_LEFT_ALIGN
+                nPosition: window.PopupPosition.BELOW_LEFT_ALIGN,
+                allowDrag: true,
+                draghandle: ''
             });
         });
         $('#br').click(function() {
