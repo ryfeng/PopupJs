@@ -1,3 +1,8 @@
+body
+{
+    text-align: center;
+}
+
 .popup
 {
     box-shadow: 1px 1px 2px 2px #ccc;
@@ -6,12 +11,13 @@
     padding: 10px;
     display: none;
     background: #FFF;
+    border: 1px solid #CCC;
 }
 
 #axis
 {
     margin: 0 auto;
-    width: 110px;
+    width: 120px;
     border: 1px solid black;
     margin-top: 200px;
     background: #FFF;

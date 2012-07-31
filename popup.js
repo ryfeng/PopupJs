@@ -128,7 +128,8 @@
             
             // Discard whatever position was here before. These are popups.
             jPopup.css('position', 'absolute')
-                .css('z-index', nDefaultZIndex);
+                .css('z-index', nDefaultZIndex)
+                .css('width', jPopup.width());
             
             var jAxis = Popup._convertObject(oOptions.oElAxis);
             if ((jAxis.length <= 0) && (oOptions.nPosition < PopupPosition.CENTER_SCREEN)) {
@@ -171,6 +172,42 @@
                     newLeft = jAxis.offset().left + Popup._realWidth(jAxis);
                     newTop = jAxis.offset().top;
                     break;
+                case PopupPosition.CENTER_SCREEN:
+                    newLeft = ($(window).width() - Popup._realWidth(jPopup)) / 2;
+                    newTop = ($(window).height() - Popup._realHeight(jPopup)) / 2;
+                    break;
+                case PopupPosition.CENTER_TOP:
+                    newLeft = ($(window).width() - Popup._realWidth(jPopup)) / 2;
+                    newTop = 0;
+                    break;
+                case PopupPosition.CENTER_BOTTOM:
+                    newLeft = ($(window).width() - Popup._realWidth(jPopup)) / 2;
+                    newTop = $(window).height() - Popup._realHeight(jPopup);
+                    break;
+                case PopupPosition.CENTER_LEFT:
+                    newLeft = 0;
+                    newTop = ($(window).height() - Popup._realHeight(jPopup)) / 2;
+                    break;
+                case PopupPosition.CENTER_RIGHT:
+                    newLeft = $(window).width() - Popup._realWidth(jPopup);
+                    newTop = ($(window).height() - Popup._realHeight(jPopup)) / 2;
+                    break;
+                case PopupPosition.TOP_LEFT:
+                    newLeft = 0;
+                    newTop = 0;
+                    break;
+                case PopupPosition.TOP_RIGHT:
+                    newLeft = $(window).width() - Popup._realWidth(jPopup);
+                    newTop = 0;
+                    break;
+                case PopupPosition.BOTTOM_LEFT:
+                    newLeft = 0;
+                    newTop = $(window).height() - Popup._realHeight(jPopup);
+                    break;
+                case PopupPosition.BOTTOM_RIGHT:
+                    newLeft = $(window).width() - Popup._realWidth(jPopup);
+                    newTop = $(window).height() - Popup._realHeight(jPopup);
+                    break;
             }
             
             // Optionally add the offsets
@@ -183,9 +220,9 @@
 
             // Always show on screen
             newLeft = Math.max(newLeft, 0);
-            newLeft = Math.min(newLeft, $(document).width() - Popup._realWidth(jPopup));
+            newLeft = Math.min(newLeft, $(window).width() - Popup._realWidth(jPopup));
             newTop = Math.max(newTop, 0);
-            newTop = Math.min(newTop, $(document).height() - jPopup.height());
+            newTop = Math.min(newTop, $(window).height() - jPopup.height());
             
             jPopup.css('left', newLeft)
                 .css('top', newTop)
