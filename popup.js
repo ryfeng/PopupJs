@@ -8,7 +8,7 @@
     var sTitleClass = 'popup-title';
     var nDefaultZIndex = 1000;
     var popupId = 0;
-    
+
     var PopupPosition = window.PopupPosition = {
         // Positioning relative to the element
         BELOW_LEFT_ALIGN: 0,
@@ -42,51 +42,51 @@
             }
             return jPopup;
         },
-        
+
         _topBorder: function(jObject) {
             return parseInt(jObject.css('border-top-width'));
         },
-        
+
         _bottomBorder: function(jObject) {
             return parseInt(jObject.css('border-bottom-width'));
         },
-        
+
         _leftBorder: function(jObject) {
             return parseInt(jObject.css('border-left-width'));
         },
-        
+
         _rightBorder: function(jObject) {
             return parseInt(jObject.css('border-right-width'));
         },
-        
+
         _topPadding: function(jObject) {
             return parseInt(jObject.css('padding-top'));
         },
-        
+
         _bottomPadding: function(jObject) {
             return parseInt(jObject.css('padding-bottom'));
         },
-        
+
         _leftPadding: function(jObject) {
             return parseInt(jObject.css('padding-left'));
         },
-        
+
         _rightPadding: function(jObject) {
             return parseInt(jObject.css('padding-right'));
         },
-        
+
         _realWidth: function(jObject) {
             return jObject.width() +
                 Popup._leftBorder(jObject) + Popup._rightBorder(jObject) +
                 Popup._leftPadding(jObject) + Popup._rightPadding(jObject);
         },
-        
+
         _realHeight: function(jObject) {
             return jObject.height() + 
                 Popup._topBorder(jObject) + Popup._bottomBorder(jObject) +
                 Popup._topPadding(jObject) + Popup._bottomPadding(jObject);
         },
-    
+
         // Returns true if correct input, false otherwise
         manage: function(oPopup, oOptions) {
             var jPopup = Popup._convertObject(oPopup);
@@ -100,58 +100,36 @@
                 throw '' + oPopup + ' could not be found!';
             }
         },
-        
+
         // Assumes the closest non-static-ally positioned parent is the document itself
         show: function(oPopup, oOptions) {
             var jPopup = Popup._convertObject(oPopup);
             if (!jPopup) {
                 throw '' + oPopup + ' could not be found!';
             }
-            
+
             if (!oOptions) {
                 oOptions = jPopup.data('popup-options');
             } else {
                 Popup.manage(oPopup, oOptions);
             }
-            
+
             // Default to center screen
             if (!oOptions) {
                 oOptions = { nPosition: PopupPosition.CENTER_SCREEN };
                 Popup.manage(oPopup, oOptions);
             }
-            
+
             var jAxis = Popup._convertObject(oOptions.oElAxis);
             if ((jAxis.length <= 0) && (oOptions.nPosition < PopupPosition.CENTER_SCREEN)) {
                 throw "Cannot position relative to null element";
             }
-            
-            // Add the title, if specified
-            if (oOptions.title && jPopup.find('.popup-title').length <= 0) {
-                var jPopupBody = jPopup;
-                jPopup = $('<div />', {
-                    'id': (jPopupBody.attr('id') ? jPopupBody.attr('id') : oOptions.title),
-                    'class': jPopupBody.attr('class')
-                });
-                jPopup.append($('<div />', {
-                    'class': sTitleClass,
-                    'text': oOptions.title
-                }));
-                jPopupBody.attr('style', '');
-                jPopupBody.css('padding', jPopupBody.css('padding'));
-                jPopupBody.css('display', 'inline-block').removeClass(jPopupBody.attr('class')).before(jPopup).remove();
-                jPopup.css('padding', '0');
-                
-                jPopup.append(jPopupBody);
-                jPopup.data('popupId', jPopupBody.data('popupId'));
-                jPopup.data('popup-options', jPopupBody.data('popup-options'));
-                lsPopups[jPopup.data('popupId')] = jPopup;
-            }
-            
+
             // Discard whatever position was here before. These are popups.
             jPopup.css('position', 'absolute')
                 .css('z-index', nDefaultZIndex)
                 .css('width', jPopup.width());
-            
+
             var newLeft = null;
             var newTop = null;
             switch(oOptions.nPosition)
@@ -225,7 +203,7 @@
                     newTop = $(window).height() - Popup._realHeight(jPopup);
                     break;
             }
-            
+
             // Optionally add the offsets
             if (oOptions.xOffset) {
                 newLeft += oOptions.xOffset;
@@ -239,7 +217,6 @@
             newLeft = Math.min(newLeft, $(window).width() - Popup._realWidth(jPopup));
             newTop = Math.max(newTop, 0);
             newTop = Math.min(newTop, $(window).height() - jPopup.height());
-            
             jPopup.css('left', newLeft)
                 .css('top', newTop)
                 .show();
@@ -258,7 +235,7 @@
                 }
             }
         },
-        
+
         hide: function(oPopup) {
             var jPopup = Popup._convertObject(oPopup);
             if (jPopup) {
@@ -267,16 +244,17 @@
                 throw "Cannot hide null popup";
             }
         },
-        
+
         _reshowAll: function() {
             for (var i = 0; i < lsPopups.length; i++) {
                 Popup.show(lsPopups[i]);
             }
         }
     };
-    
+
+    // Primite debounce
     var timer;
-    
+
     $(window).resize(function() {
         if (timer) {
              clearTimeout(timer);
