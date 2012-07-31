@@ -6,6 +6,7 @@
     // Associative Array of Popup => Option
     var lsPopups = [];
     var sPopupDragHandleClass = 'popup-drag-handle';
+    var sTitleClass = 'popup-title';
     var nDefaultZIndex = 1000;
     var popupId = 0;
     
@@ -93,7 +94,7 @@
             if (jPopup) {
                 if (jPopup.data('popupId') === undefined) {
                     jPopup.data('popupId', popupId++);
-                    lsPopups.push(jPopup);
+                    lsPopups[jPopup.data('popupId')] = jPopup;
                 }
                 jPopup.data('popup-options', oOptions);
             } else {
@@ -120,15 +121,33 @@
                 Popup.manage(oPopup, oOptions);
             }
             
-            // Discard whatever position was here before. These are popups.
-            jPopup.css('position', 'absolute')
-                .css('z-index', nDefaultZIndex)
-                .css('width', jPopup.width());
-            
             var jAxis = Popup._convertObject(oOptions.oElAxis);
             if ((jAxis.length <= 0) && (oOptions.nPosition < PopupPosition.CENTER_SCREEN)) {
                 throw "Cannot position relative to null element";
             }
+            
+            // Add the title, if specified
+            if (oOptions.title && jPopup.find('.popup-title').length <= 0) {
+                var jPopupBody = jPopup;
+                jPopup = $('<div />', {
+                    'id': (jPopupBody.attr('id') ? jPopupBody.attr('id') : oOptions.title),
+                    'class': jPopupBody.attr('class')
+                });
+                jPopup.append($('<div />', {
+                    'class': '.' + sTitleClass,
+                    'text': oOptions.title
+                }));
+                jPopupBody.show().removeClass(jPopupBody.attr('class')).before(jPopup).remove();
+                jPopup.append(jPopupBody);
+                jPopup.data('popupId', jPopupBody.data('popupId'));
+                jPopup.data('popup-options', jPopupBody.data('popup-options'));
+                lsPopups[jPopup.data('popupId')] = jPopup;
+            }
+            
+            // Discard whatever position was here before. These are popups.
+            jPopup.css('position', 'absolute')
+                .css('z-index', nDefaultZIndex)
+                .css('width', jPopup.width());
             
             var newLeft = null;
             var newTop = null;
@@ -221,7 +240,8 @@
             jPopup.css('left', newLeft)
                 .css('top', newTop)
                 .show();
-                
+
+            // Allow popup to become draggable
             if (oOptions.allowDrag) {
                 if (oOptions.draghandle) {
                     jPopup.draggable({
@@ -230,7 +250,7 @@
                 
                 } else {
                     jPopup.draggable({
-                        handle: sPopupDragHandleClass
+                        handle: '.'+sPopupDragHandleClass
                     });
                 }
             }
