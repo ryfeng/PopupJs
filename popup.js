@@ -1,12 +1,6 @@
 // PopupJs
 //  - Requires jQuery
 
-// Options
-//  - nPosition: one of 17 possible positions in window.PopupPosition
-//  - oElAxis  : element to be the axis of positioning
-//  - xOffset (positive moves object to the RIGHT, negative moves to the LEFT)
-//  - yOffset (position moves object DOWN, negative moves object UP)
-
 // Does not take into account borders and margins
 (function() {
     // Associative Array of Popup => Option
