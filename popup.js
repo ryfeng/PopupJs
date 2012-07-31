@@ -1,7 +1,6 @@
 // PopupJs
 //  - Requires jQuery
 
-// Does not take into account borders and margins
 (function() {
     // Associative Array of Popup => Option
     var lsPopups = [];
