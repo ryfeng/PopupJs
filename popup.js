@@ -10,9 +10,10 @@
 // Does not take into account borders and margins
 (function() {
     // Associative Array of Popup => Option
-    var dPopupOptions = [];
+    var lsPopups = [];
     var sPopupDragHandleClass = 'popup-drag-handle';
     var nDefaultZIndex = 1000;
+    var popupId = 0;
     
     var PopupPosition = window.PopupPosition = {
         // Positioning relative to the element
@@ -96,7 +97,11 @@
         manage: function(oPopup, oOptions) {
             var jPopup = Popup._convertObject(oPopup);
             if (jPopup) {
-                dPopupOptions[jPopup] = oOptions;
+                if (jPopup.data('popupId') === undefined) {
+                    jPopup.data('popupId', popupId++);
+                    lsPopups.push(jPopup);
+                }
+                jPopup.data('popup-options', oOptions);
             } else {
                 throw '' + oPopup + ' could not be found!';
             }
@@ -105,14 +110,18 @@
         // Assumes the closest non-static-ally positioned parent is the document itself
         show: function(oPopup, oOptions) {
             var jPopup = Popup._convertObject(oPopup);
-            if (oOptions === null) {
-                oOptions = dPopupOptions[jPopup];
+            if (!jPopup) {
+                throw '' + oPopup + ' could not be found!';
+            }
+            
+            if (!oOptions) {
+                oOptions = jPopup.data('popup-options');
             } else {
                 Popup.manage(oPopup, oOptions);
             }
             
             // Default to center screen
-            if (oOptions === null) {
+            if (!oOptions) {
                 oOptions = { nPosition: PopupPosition.CENTER_SCREEN };
                 Popup.manage(oPopup, oOptions);
             }
@@ -122,7 +131,7 @@
                 .css('z-index', nDefaultZIndex);
             
             var jAxis = Popup._convertObject(oOptions.oElAxis);
-            if ((jAxis.length <= 0) && (oOptions.nPosition < CENTER_SCREEN)) {
+            if ((jAxis.length <= 0) && (oOptions.nPosition < PopupPosition.CENTER_SCREEN)) {
                 throw "Cannot position relative to null element";
             }
             
@@ -204,5 +213,23 @@
                 throw "Cannot hide null popup";
             }
         },
+        
+        _reshowAll: function() {
+            for (var i = 0; i < lsPopups.length; i++) {
+                Popup.show(lsPopups[i]);
+            }
+        }
     };
+    
+    var timer;
+    
+    $(window).resize(function() {
+        if (timer) {
+             clearTimeout(timer);
+         }
+         // do a date calculation
+         // show user changes to screen
+         // call the function
+         timer = setTimeout(Popup._reshowAll, 100);
+    });
 })();
