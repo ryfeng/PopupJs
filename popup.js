@@ -134,10 +134,14 @@
                     'class': jPopupBody.attr('class')
                 });
                 jPopup.append($('<div />', {
-                    'class': '.' + sTitleClass,
+                    'class': sTitleClass,
                     'text': oOptions.title
                 }));
-                jPopupBody.show().removeClass(jPopupBody.attr('class')).before(jPopup).remove();
+                jPopupBody.attr('style', '');
+                jPopupBody.css('padding', jPopupBody.css('padding'));
+                jPopupBody.css('display', 'inline-block').removeClass(jPopupBody.attr('class')).before(jPopup).remove();
+                jPopup.css('padding', '0');
+                
                 jPopup.append(jPopupBody);
                 jPopup.data('popupId', jPopupBody.data('popupId'));
                 jPopup.data('popup-options', jPopupBody.data('popup-options'));
