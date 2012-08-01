@@ -1,7 +1,9 @@
 PopupJs - Popup Manager for JavaScript
+======================================
 Author: Royce Feng
 
 Options:
+--------
 
  - nPosition: one of 17 possible positions in window.PopupPosition
  - oElAxis  : element to be the axis of positioning
@@ -13,11 +15,12 @@ Options:
  - findParent: finds the closest parent that is not statically positioned and offsets
  
 Important
+---------
 
  - Popups are overwritten with absolute position. I do not currently support relatively positioned popups.
  - Uses $(window).resize to reposition popups. I would highly suggest not unbinding.
  - Uses $(document).click to hide/show popups when clicked outside. I would highly suggest not unbinding.
- - - Stopping propagation any place in the document will cause this to fail.
+     - Stopping propagation any place in the document will cause this to fail.
 
 MIT License
 Copyright (c) 2012 Royce Feng
