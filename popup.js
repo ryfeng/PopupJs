@@ -147,14 +147,25 @@
                 jPopup.data('popup-options', jPopupBody.data('popup-options'));
                 lsPopups[jPopup.data('popupId')] = jPopup;
             }
-            
+
             // Discard whatever position was here before. These are popups.
             jPopup.css('position', 'absolute')
                 .css('z-index', nDefaultZIndex)
                 .css('width', jPopup.width());
-            
+
             var newLeft = null;
             var newTop = null;
+
+            if (oOptions.oElParent) {
+                var jParent = Popup._convertObject(oOptions.oElParent);
+                if (jParent.length) {
+                    newLeft = -jParent.offset().left;
+                    newTop = -jParent.offset().top;
+                } else {
+                    throw "Parent specified but not found";
+                }
+            }
+
             switch(oOptions.nPosition)
             {
                 case PopupPosition.BELOW_LEFT_ALIGN:

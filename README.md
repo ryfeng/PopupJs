@@ -9,3 +9,4 @@ Options:
  - yOffset (position moves object DOWN, negative moves object UP)
  - allowDrag: allows popup to be dragged
  - draghandle
+ - oElParent: closest parent that whose position is not static
