@@ -244,7 +244,10 @@
             // Finally show the popup
             jPopup.css('left', newLeft)
                 .css('top', newTop)
-                .show();
+                .show()
+                // Clicks that show the popup will propogate to the document click event handler
+                // Stall one click before hiding the popup
+                .data('justShown', true);
 
             // Allow popup to become draggable
             if (oOptions.allowDrag) {
@@ -274,6 +277,14 @@
             for (var i = 0; i < lsPopups.length; i++) {
                 Popup.show(lsPopups[i]);
             }
+        },
+        
+        _containedWithin: function(jPopup, event) {
+            if (jPopup.data('justShown')) {
+                jPopup.data('justShown', false);
+                return false;
+            }
+            return ($(event.target).parents().index(jPopup) == -1);
         }
     };
 
@@ -288,5 +299,15 @@
          // show user changes to screen
          // call the function
          timer = setTimeout(Popup._reshowAll, 100);
+    });
+    
+    // Handle clicking outside of window
+    // Do not use stop propogation as that may interfere with other actions
+    $(document).click(function(event) { 
+        for (var i = 0; i < lsPopups.length; i++) {
+            if (Popup._containedWithin(lsPopups[i], event)) {
+                Popup.hide(lsPopups[i]);
+            }
+        }
     });
 })();
