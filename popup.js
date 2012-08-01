@@ -133,16 +133,6 @@
             var newLeft = null;
             var newTop = null;
 
-            if (oOptions.oElParent) {
-                var jParent = Popup._convertObject(oOptions.oElParent);
-                if (jParent.length) {
-                    newLeft = -jParent.offset().left;
-                    newTop = -jParent.offset().top;
-                } else {
-                   throw "Parent specified but not found";
-               }
-            }
-
             switch(oOptions.nPosition)
             {
                 case PopupPosition.BELOW_LEFT_ALIGN:
@@ -222,12 +212,25 @@
             if (oOptions.yOffset) {
                 newTop += oOptions.yOffset;
             }
+            
+            // Optionally subtract the offsets of the parent
+            if (oOptions.oElParent) {
+                var jParent = Popup._convertObject(oOptions.oElParent);
+                if (jParent.length) {
+                    newLeft -= jParent.offset().left;
+                    newTop -= jParent.offset().top;
+                } else {
+                   throw "Parent specified but not found";
+               }
+            }
 
             // Always show on screen
             newLeft = Math.max(newLeft, 0);
             newLeft = Math.min(newLeft, $(window).width() - Popup._realWidth(jPopup));
             newTop = Math.max(newTop, 0);
             newTop = Math.min(newTop, $(window).height() - jPopup.height());
+
+            // Finally show the popup
             jPopup.css('left', newLeft)
                 .css('top', newTop)
                 .show();
