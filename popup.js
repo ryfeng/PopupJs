@@ -132,6 +132,17 @@
 
             var newLeft = null;
             var newTop = null;
+
+            if (oOptions.oElParent) {
+                var jParent = Popup._convertObject(oOptions.oElParent);
+                if (jParent.length) {
+                    newLeft = -jParent.offset().left;
+                    newTop = -jParent.offset().top;
+                } else {
+                   throw "Parent specified but not found";
+               }
+            }
+
             switch(oOptions.nPosition)
             {
                 case PopupPosition.BELOW_LEFT_ALIGN:
