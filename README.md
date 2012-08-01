@@ -10,3 +10,4 @@ Options:
  - allowDrag: allows popup to be dragged
  - draghandle
  - oElParent: closest parent that whose position is not static
+ - findParent: finds the closest parent that is not statically positioned and offsets

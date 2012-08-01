@@ -222,6 +222,17 @@
                 } else {
                    throw "Parent specified but not found";
                }
+            } else if (oOptions.findParent) {
+                var elSuperParent = $('html')[0];
+                var jParent = jPopup;
+                do {
+                    jParent = jParent.parent();
+                    if (jParent.css('position') !== 'static') {
+                        newLeft -= jParent.offset().left;
+                        newTop -= jParent.offset().top;
+                        break;
+                    }
+                } while (jParent[0] !== elSuperParent);
             }
 
             // Always show on screen
