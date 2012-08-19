@@ -43,50 +43,6 @@
             return jPopup;
         },
 
-        _topBorder: function(jObject) {
-            return parseInt(jObject.css('border-top-width'));
-        },
-
-        _bottomBorder: function(jObject) {
-            return parseInt(jObject.css('border-bottom-width'));
-        },
-
-        _leftBorder: function(jObject) {
-            return parseInt(jObject.css('border-left-width'));
-        },
-
-        _rightBorder: function(jObject) {
-            return parseInt(jObject.css('border-right-width'));
-        },
-
-        _topPadding: function(jObject) {
-            return parseInt(jObject.css('padding-top'));
-        },
-
-        _bottomPadding: function(jObject) {
-            return parseInt(jObject.css('padding-bottom'));
-        },
-
-        _leftPadding: function(jObject) {
-            return parseInt(jObject.css('padding-left'));
-        },
-
-        _rightPadding: function(jObject) {
-            return parseInt(jObject.css('padding-right'));
-        },
-
-        _realWidth: function(jObject) {
-            return jObject.width() +
-                Popup._leftBorder(jObject) + Popup._rightBorder(jObject) +
-                Popup._leftPadding(jObject) + Popup._rightPadding(jObject);
-        },
-
-        _realHeight: function(jObject) {
-            return jObject.height() + 
-                Popup._topBorder(jObject) + Popup._bottomBorder(jObject) +
-                Popup._topPadding(jObject) + Popup._bottomPadding(jObject);
-        },
-
         // Returns true if correct input, false otherwise
         manage: function(oPopup, oOptions) {
             var jPopup = Popup._convertObject(oPopup);
@@ -137,71 +93,71 @@
             {
                 case PopupPosition.BELOW_LEFT_ALIGN:
                     newLeft = jAxis.offset().left;
-                    newTop = jAxis.offset().top + Popup._realHeight(jAxis);
+                    newTop = jAxis.offset().top + jAxis.outerHeight();
                     break;
                 case PopupPosition.BELOW_RIGHT_ALIGN:
-                    newLeft = jAxis.offset().left - Popup._realWidth(jPopup) + Popup._realWidth(jAxis);
-                    newTop = jAxis.offset().top + Popup._realHeight(jAxis);
+                    newLeft = jAxis.offset().left - jPopup.outerWidth() + jAxis.outerWidth();
+                    newTop = jAxis.offset().top + jAxis.outerHeight();
                     break;
                 case PopupPosition.TOP_LEFT_ALIGN:
                     newLeft = jAxis.offset().left;
-                    newTop = jAxis.offset().top - Popup._realHeight(jPopup);
+                    newTop = jAxis.offset().top - jPopup.outerHeight();
                     break;
                 case PopupPosition.TOP_RIGHT_ALIGN:
-                    newLeft = jAxis.offset().left - Popup._realWidth(jPopup) + Popup._realWidth(jAxis);
-                    newTop = jAxis.offset().top - Popup._realHeight(jPopup);
+                    newLeft = jAxis.offset().left - jPopup.outerWidth() + jAxis.outerWidth();
+                    newTop = jAxis.offset().top - jPopup.outerHeight();
                     break;
                 case PopupPosition.LEFT_BOTTOM_ALIGN:
-                    newLeft = jAxis.offset().left - Popup._realWidth(jPopup);
-                    newTop = jAxis.offset().top - Popup._realHeight(jPopup) + Popup._realHeight(jAxis);
+                    newLeft = jAxis.offset().left - jPopup.outerWidth();
+                    newTop = jAxis.offset().top - jPopup.outerHeight() + jAxis.outerHeight();
                     break;
                 case PopupPosition.LEFT_TOP_ALIGN:
-                    newLeft = jAxis.offset().left - Popup._realWidth(jPopup);
+                    newLeft = jAxis.offset().left - jPopup.outerWidth();
                     newTop = jAxis.offset().top;
                     break;
                 case PopupPosition.RIGHT_BOTTOM_ALIGN:
-                    newLeft = jAxis.offset().left + Popup._realWidth(jAxis);
-                    newTop = jAxis.offset().top - Popup._realHeight(jPopup) + Popup._realHeight(jAxis);
+                    newLeft = jAxis.offset().left + jAxis.outerWidth();
+                    newTop = jAxis.offset().top - jPopup.outerHeight() + jAxis.outerHeight();
                     break;
                 case PopupPosition.RIGHT_TOP_ALIGN:
-                    newLeft = jAxis.offset().left + Popup._realWidth(jAxis);
+                    newLeft = jAxis.offset().left + jAxis.outerWidth();
                     newTop = jAxis.offset().top;
                     break;
                 case PopupPosition.CENTER_SCREEN:
-                    newLeft = ($(window).width() - Popup._realWidth(jPopup)) / 2;
-                    newTop = ($(window).height() - Popup._realHeight(jPopup)) / 2;
+                    newLeft = ($(window).width() - jPopup.outerWidth()) / 2;
+                    newTop = ($(window).height() - jPopup.outerHeight()) / 2;
                     break;
                 case PopupPosition.CENTER_TOP:
-                    newLeft = ($(window).width() - Popup._realWidth(jPopup)) / 2;
+                    newLeft = ($(window).width() - jPopup.outerWidth()) / 2;
                     newTop = 0;
                     break;
                 case PopupPosition.CENTER_BOTTOM:
-                    newLeft = ($(window).width() - Popup._realWidth(jPopup)) / 2;
-                    newTop = $(window).height() - Popup._realHeight(jPopup);
+                    newLeft = ($(window).width() - jPopup.outerWidth()) / 2;
+                    newTop = $(window).height() - jPopup.outerHeight();
                     break;
                 case PopupPosition.CENTER_LEFT:
                     newLeft = 0;
-                    newTop = ($(window).height() - Popup._realHeight(jPopup)) / 2;
+                    newTop = ($(window).height() - jPopup.outerHeight()) / 2;
                     break;
                 case PopupPosition.CENTER_RIGHT:
-                    newLeft = $(window).width() - Popup._realWidth(jPopup);
-                    newTop = ($(window).height() - Popup._realHeight(jPopup)) / 2;
+                    newLeft = $(window).width() - jPopup.outerWidth();
+                    newTop = ($(window).height() - jPopup.outerHeight()) / 2;
                     break;
                 case PopupPosition.TOP_LEFT:
                     newLeft = 0;
                     newTop = 0;
                     break;
                 case PopupPosition.TOP_RIGHT:
-                    newLeft = $(window).width() - Popup._realWidth(jPopup);
+                    newLeft = $(window).width() - jPopup.outerWidth();
                     newTop = 0;
                     break;
                 case PopupPosition.BOTTOM_LEFT:
                     newLeft = 0;
-                    newTop = $(window).height() - Popup._realHeight(jPopup);
+                    newTop = $(window).height() - jPopup.outerHeight();
                     break;
                 case PopupPosition.BOTTOM_RIGHT:
-                    newLeft = $(window).width() - Popup._realWidth(jPopup);
-                    newTop = $(window).height() - Popup._realHeight(jPopup);
+                    newLeft = $(window).width() - jPopup.outerWidth();
+                    newTop = $(window).height() - jPopup.outerHeight();
                     break;
             }
 
@@ -237,7 +193,7 @@
 
             // Always show on screen
             newLeft = Math.max(newLeft, 0);
-            newLeft = Math.min(newLeft, $(window).width() - Popup._realWidth(jPopup));
+            newLeft = Math.min(newLeft, $(window).width() - jPopup.outerWidth());
             newTop = Math.max(newTop, 0);
             newTop = Math.min(newTop, $(window).height() - jPopup.height());
 
@@ -255,12 +211,13 @@
                     jPopup.draggable({
                         handle: oOptions.draghandle
                     });
-                
                 } else {
                     jPopup.draggable({
                         handle: '.'+sPopupDragHandleClass
                     });
                 }
+            } else {
+                jPopup.draggable('destroy')
             }
         },
 
