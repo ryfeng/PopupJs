@@ -219,6 +219,13 @@
             } else {
                 jPopup.draggable('destroy')
             }
+            
+            // fHideOthersOnShow
+            if (oOptions.fHideOthersOnShow) {
+                for (var i = 0; i < lsPopups.length; i++) {
+                    Popup.hide(lsPopups[i]);
+                }
+            }
         },
 
         hide: function(oPopup) {
@@ -239,9 +246,9 @@
         _containedWithin: function(jPopup, event) {
             if (jPopup.data('justShown')) {
                 jPopup.data('justShown', false);
-                return false;
+                return true;
             }
-            return ($(event.target).parents().index(jPopup) == -1);
+            return ($(event.target).parents().index(jPopup) != -1);
         }
     };
 
@@ -260,9 +267,9 @@
     
     // Handle clicking outside of window
     // Do not use stop propogation as that may interfere with other actions
-    $(document).click(function(event) { 
+    $(document).click(function(event) {
         for (var i = 0; i < lsPopups.length; i++) {
-            if (Popup._containedWithin(lsPopups[i], event)) {
+            if (!Popup._containedWithin(lsPopups[i], event)) {
                 Popup.hide(lsPopups[i]);
             }
         }
