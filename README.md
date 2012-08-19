@@ -13,6 +13,7 @@ Options:
  - `draghandle`: jQuery selector for drag handle
  - `oElParent`: closest parent that whose position is not static
  - `findParent`: finds the closest parent that is not statically positioned and offsets
+ - `fHideOthersOnShow`: hides other popup windows when shown
  
 Important
 ---------
